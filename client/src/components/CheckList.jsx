@@ -4,7 +4,14 @@ import ProgressBar from "./ProgressBar";
 function CheckList({ user, setUser }) {
     const [tasks, setTasks] = useState([]);
     const [progress, setProgress] = useState(0);
-    const [sections, setSections] = useState({});
+    // Initialize sections state with all sections expanded
+    const [sections, setSections] = useState(() => {
+        const initialSections = {};
+        tasks.forEach(task => {
+            initialSections[task.section] = true;
+        });
+        return initialSections;
+    });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
@@ -67,7 +74,8 @@ function CheckList({ user, setUser }) {
             const updatedTasks = { ...tasks };
             Object.keys(updatedTasks).forEach((section) => {
                 updatedTasks[section] = updatedTasks[section].map((task) =>
-                    task.id === taskId ? { ...task, completed: !completed } : task
+                    // Use _id instead of id
+                    task._id === taskId ? { ...task, completed: !completed } : task
                 );
             });
 
@@ -76,11 +84,11 @@ function CheckList({ user, setUser }) {
             setTasks(updatedTasks);
             setProgress(updatedProgress);
 
-            const response = await fetch(`http://localhost:8080/api/users/${userId}/updateTask`, {
+            const response = await fetch(`http://localhost:8080/api/users/${user._id}/updateTask`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    userId,
+                    userId: user._id,
                     taskId,
                     completed: !completed,
                     progress: updatedProgress
@@ -91,13 +99,11 @@ function CheckList({ user, setUser }) {
                 throw new Error("Failed to update task");
             }
 
-            const UpdateUser = await response.json();
-            setUser(UpdateUser);
+            const updatedUser = await response.json();
+            setUser(updatedUser);
 
         } catch (error) {
             setError(error.message);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -151,7 +157,7 @@ function CheckList({ user, setUser }) {
                                                     type="checkbox"
                                                     checked={task.completed}
                                                     onChange={() =>
-                                                        toggleTaskCompletion(task.id, task.completed)
+                                                        toggleTaskCompletion(task._id, task.completed)
                                                     }
                                                 />
                                             </div>
