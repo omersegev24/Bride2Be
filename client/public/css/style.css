@@ -351,6 +351,142 @@ form button:hover {
 
     .role-selection label {
         font-size: 12px;
+.task-path-container {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+        url('../images/weddingBackground.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.task-path {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    position: relative;
+    max-width: 900px;
+    padding: 20px;
+}
+
+.task-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    background-color: #ffffff;
+    border: 3px solid #af8dc3;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.task-connector {
+    position: absolute;
+    background-color: #af8dc3;
+    z-index: 1;
+}
+
+.task-node::before,
+.task-node::after {
+    content: '';
+    position: absolute;
+    background-color: #af8dc3;
+    height: 3px;
+    width: 40px;
+    z-index: 1;
+}
+
+.task-node::before {
+    right: 100%;
+    top: 50%;
+}
+
+.task-node::after {
+    left: 100%;
+    top: 50%;
+}
+
+.task-node:nth-child(3n)::after {
+    display: none;
+}
+
+.task-node:nth-child(3n+1)::before {
+    display: none;
+}
+
+.task-node:hover {
+    transform: scale(1.1);
+    background-color: #ffe4e9;
+    z-index: 3;
+}
+
+.task-node.completed {
+    background-color: #af8dc3;
+    border-color: #8c6a8d;
+}
+
+.task-circle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #af8dc3;
+}
+
+.task-node.completed .task-circle {
+    color: #ffffff;
+}
+
+.task-label {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+    color: #333333;
+    font-weight: bold;
+    max-width: 80%;
+}
+
+.task-node.completed .task-label {
+    color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .task-path {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .task-node {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .task-node:nth-child(2n)::after {
+        display: none;
+    }
+    
+    .task-node:nth-child(2n+1)::before {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .task-path {
+        grid-template-columns: 1fr;
+    }
+    
+    .task-node::before,
+    .task-node::after {
+        display: none;
     }
 }
 

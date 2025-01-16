@@ -12,28 +12,28 @@ const TaskPath = ({ onTaskClick, user }) => {
         { name: "Magnet Photographer", completed: false },
         { name: "Invitations", completed: false },
         { name: "Accessories", completed: false },
-      ];
-      
+    ];
 
-  return (
-    <div>
-        <Header user={user} />
-         <div className="task-path-container">
-        <div className="task-path">
-          {tasks.map((task, index) => (
-            <div
-              key={index}
-              className={`task-node ${task.completed ? "completed" : ""}`}
-              onClick={() => onTaskClick(index)}
-            >
-              <div className="task-circle">{index + 1}</div>
-              <div className="task-label">{task.name}</div>
+    return (
+        <div>
+            <Header user={user} />
+            <div className="task-path-container">
+                <div className="task-path">
+                    {tasks.map((task, index) => (
+                        <div
+                            key={index}
+                            className={`task-node ${task.completed ? "completed" : ""} position-${index}`}
+                            onClick={() => onTaskClick(index)}
+                        >
+                            <div className="task-connector"></div>
+                            <div className="task-circle">{index + 1}</div>
+                            <div className="task-label">{task.name}</div>
+                        </div>
+                    ))}
+                </div>
             </div>
-          ))}
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default TaskPath;
